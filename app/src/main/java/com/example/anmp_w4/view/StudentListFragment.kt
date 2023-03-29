@@ -5,20 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.anmp_w4.R
 import com.example.anmp_w4.viewmodel.ListViewModel
+import kotlinx.android.synthetic.main.fragment_student_list.*
 
-/**
- * A simple [Fragment] subclass.
- * Use the [StudentListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class StudentListFragment : Fragment() {
 
     private lateinit var viewModel: ListViewModel
@@ -43,6 +39,14 @@ class StudentListFragment : Fragment() {
 
         observeViewModel()
 
+        val swipe = view.findViewById<SwipeRefreshLayout>(R.id.refreshLayout)
+        swipe.setOnRefreshListener {
+            recView.visibility = View.GONE
+            txtError.visibility = View.GONE
+            progressLoad.visibility = View.VISIBLE
+            viewModel.refresh()
+            refreshLayout.isRefreshing = false
+        }
     }
 
     private fun observeViewModel() {
@@ -61,9 +65,12 @@ class StudentListFragment : Fragment() {
                 if(it){ //sedang loading
                     recView?.visibility = View.GONE
                     progressLoad?.visibility = View.VISIBLE
+                    txtError?.visibility = View.VISIBLE
                 }else{
                     recView?.visibility = View.VISIBLE
                     progressLoad?.visibility = View.GONE
+                    txtError?.visibility = View.GONE
+
                 }
             }
 
