@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import com.example.anmp_w4.R
@@ -16,8 +17,12 @@ import com.example.anmp_w4.viewmodel.ListViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_student_detail.*
 import kotlinx.android.synthetic.main.student_list_item.*
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -59,9 +64,25 @@ class StudentDetailFragment : Fragment() {
             val txtStudentId = view?.findViewById<TextInputEditText>(R.id.txtEditId)
             val txtBirthDate = view?.findViewById<TextInputEditText>(R.id.txtEditBirth)
             val txtPhone = view?.findViewById<TextInputEditText>(R.id.txtEditPhone)
+            val btnNotif = view?.findViewById<Button>(R.id.btnNotif)
+
 
 //            imgStudent?.setImageResource(it[0].photoUrl)
 //            Picasso.get().load(it[0].photoUrl).into(imgStudent)
+            val student = it
+            btnNotif?.setOnClickListener{
+                Observable.timer(5, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        Log.d("Messages", "five seconds")
+                        MainActivity.showNotif(student.name.toString(),
+                            "A new notification created",
+                            R.drawable.ic_baseline_circle_24)
+                    }
+
+            }
+
             txtStudentName?.setText(it.name.toString())
             txtStudentId?.setText(it.id.toString())
             txtBirthDate?.setText(it.dob.toString())

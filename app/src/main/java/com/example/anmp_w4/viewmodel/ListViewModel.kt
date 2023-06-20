@@ -33,8 +33,9 @@ class ListViewModel(application: Application): AndroidViewModel(application){
             {
                 val sType = object : TypeToken<List<Student>>() { }.type
                 val result = Gson().fromJson<List<Student>>(it, sType)
+                Log.d("result of student", result.toString())
                 studentsLiveData.value = result as ArrayList<Student> /* = java.util.ArrayList<com.example.anmp_w4.model.Student> */
-
+                Log.d("Test", it)
 
                 loadingLiveData.value = false
                 Log.d("showvoley", it)

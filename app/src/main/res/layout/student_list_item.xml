@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="student"
+            type="com.example.anmp_w4.model.Student" />
+        <variable
+            name="listener"
+            type="com.example.anmp_w4.view.ButtonDetailClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="0dp">
@@ -26,6 +36,8 @@
                 android:id="@+id/imgStudentProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:imageUrl="@{student.photoUrl}"
+                android:progressBar="@{progressBar}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -38,7 +50,7 @@
                 android:layout_marginStart="26dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="20dp"
-                android:text="ID"
+                android:text="@{student.id}"
                 app:layout_constraintBottom_toTopOf="@+id/txtStudentName"
                 app:layout_constraintStart_toEndOf="@+id/imgStudentProfile"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"
                 android:layout_marginBottom="54dp"
-                android:text="Student Name"
+                android:text="@{student.name}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imgStudentProfile"
                 app:layout_constraintTop_toBottomOf="@+id/txtId" />
@@ -62,6 +74,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="17dp"
                 android:text="Detail"
+                android:tag="@{student.id}"
+                android:onClick="@{listener::onButtonDetailClick}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -78,3 +92,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
